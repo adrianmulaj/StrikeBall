@@ -14,35 +14,29 @@ import java.util.*;
  * @author andim
  */
 public class Client {
-    
-        public static String name; 
+
+    public static String name;
+
     public static void main(String[] args) {
         int porta = 3500;
         String messaggio = "";
         String host = "localhost";
         InputStreamReader reader = new InputStreamReader(System.in);
         BufferedReader riga = new BufferedReader(reader);
-
         try {
             Socket connessione;
             String server = "localhost";
             connessione = new Socket(server, porta);
             System.out.println("connessione aperta");
-            Gioco gioker = new Gioco(); 
+            Gioco gioker = new Gioco();
             DatagramSocket socket = new DatagramSocket();
             RiceviMSG r = new RiceviMSG(socket);
-            System.out.println("Inserisci il tuo nome");
-            Client.name = inserimento();
             InviaMSG s = new InviaMSG(socket, host, Client.name);
             Thread rt = new Thread(r);
             Thread st = new Thread(s);
             rt.start();
             st.start();
-            if (r.getReceived() == "esci") {
-                connessione.close();
-                System.out.println("connessione chiusa");   //da ricevi msg dovresti riuscire a passare un msg di chiusura
-            }
-
+            connessione.close();
         } catch (IOException ex) {
             System.err.println("Server non trovato sulla porta: " + porta);
         }

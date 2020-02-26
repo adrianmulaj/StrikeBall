@@ -6,36 +6,51 @@
 package strikeball;
 
 import java.util.Random;
+import java.awt.Container;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  *
  * @author andim
  */
-public class Gioco{
+public class Gioco extends JFrame {
 
     public static int numero[];
     public Giocatore gioc;
     public static int strike;
     public static int ball;
-    
-    
+    public JTextArea scontrino = new JTextArea();
+    public JPanel primo = new JPanel();
+
     public Gioco() {
         super();
+        Container c = this.getContentPane();
+        this.setSize(630, 380);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+       
+        add(primo);
+        primo.add(scontrino);
+        scontrino.setVisible(true);
+
         this.strike = 0;
         this.ball = 0;
         int n;
         numero = new int[4];
         Random random = new Random();
         gioc = new Giocatore();
-
+        
         for (int i = 0; i < 4; i++) {
             numero[i] = random.nextInt(9);
             System.out.println(numero[i]);
         }
+
         for (int i = 0; i < gioc.tentativi; i++) {
-            gioc.insNum();
+            System.out.println("vvvv");
             this.verifica();
-            this.printResults();
+            this.serchRes();
         }
     }
 
@@ -56,7 +71,8 @@ public class Gioco{
         this.gioc.setBall(this.ball);
     }
 
-    public void printResults() {
-        System.out.print(this.gioc);
+    public void serchRes() {
+        System.out.println("");
+        scontrino.append(this.gioc.toString());
     }
 }
