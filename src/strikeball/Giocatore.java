@@ -77,9 +77,9 @@ public class Giocatore extends JFrame implements ActionListener {
         this.setSize(630, 380);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-
         // System.out.println("Inserisci il tuo nome");
         this.name = "Andi";
+
     }
 
     @Override

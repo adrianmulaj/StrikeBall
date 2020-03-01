@@ -22,7 +22,6 @@ public class Gioco extends JFrame {
     public static int strike;
     public static int ball;
     public JTextArea scontrino = new JTextArea();
-    public JPanel primo = new JPanel();
 
     public Gioco() {
         super();
@@ -30,9 +29,7 @@ public class Gioco extends JFrame {
         this.setSize(630, 380);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-       
-        add(primo);
-        primo.add(scontrino);
+        add(scontrino);
         scontrino.setVisible(true);
 
         this.strike = 0;
@@ -41,7 +38,6 @@ public class Gioco extends JFrame {
         numero = new int[4];
         Random random = new Random();
         gioc = new Giocatore();
-        
         for (int i = 0; i < 4; i++) {
             numero[i] = random.nextInt(9);
             System.out.println(numero[i]);
