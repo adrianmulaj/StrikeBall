@@ -32,9 +32,6 @@ public class RiceviMSG implements Runnable{
                 sock.receive(packet);
                 received = new String(packet.getData(), 0, packet.getLength());
                 System.out.println(received);
-                if(received == "esci"){
-                    f=false;
-                }
             } catch(IOException e) {
                 System.err.println(e);
             }

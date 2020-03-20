@@ -35,7 +35,6 @@ public class ServerMSGS extends Thread {
         byte[] buf = new byte[BUFFER];
         while (true) {
             try {
-                Arrays.fill(buf, (byte) 0);
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
 

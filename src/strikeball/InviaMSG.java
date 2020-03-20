@@ -28,10 +28,12 @@ public class InviaMSG implements Runnable {
     }
     
     private void sendMessage(String s) throws Exception {
-        byte buf[] = s.getBytes();
+        byte buf[] =null;
+        buf = s.getBytes();
         InetAddress address = InetAddress.getByName(hostname);
         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, PORT);
         sock.send(packet);
+        
     }
     
     @Override
@@ -39,7 +41,7 @@ public class InviaMSG implements Runnable {
         boolean connected = false;
         do {
             try {
-                sendMessage(this.idg + ": è nella lobby");
+                sendMessage(this.idg );
                 connected = true;
             } catch (Exception e) {
                 

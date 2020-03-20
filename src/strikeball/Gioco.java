@@ -5,70 +5,87 @@
  */
 package strikeball;
 
+import java.io.Serializable;
 import java.util.Random;
-import java.awt.Container;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 
 /**
  *
  * @author andim
  */
-public class Gioco extends JFrame {
+public class Gioco implements Serializable{
 
-    public static int numero[];
+    public  int numero[];
     public Giocatore gioc;
-    public static int strike;
-    public static int ball;
-    public JTextArea scontrino = new JTextArea();
+    public  int strike;
+    public  int ball;
+    public  int punti;
+    public boolean risolto; 
 
     public Gioco() {
-        super();
-        Container c = this.getContentPane();
-        this.setSize(630, 380);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-        add(scontrino);
-        scontrino.setVisible(true);
-
+        risolto = false; 
         this.strike = 0;
         this.ball = 0;
-        int n;
         numero = new int[4];
         Random random = new Random();
-        gioc = new Giocatore();
         for (int i = 0; i < 4; i++) {
             numero[i] = random.nextInt(9);
             System.out.println(numero[i]);
         }
-
-        for (int i = 0; i < gioc.tentativi; i++) {
-            System.out.println("vvvv");
-            this.verifica();
-            this.serchRes();
-        }
     }
 
+    public Gioco(Giocatore gioc) {
+        this.gioc = gioc;
+    }
+
+    
     public void verifica() {
+  int k =0; 
         for (int i = 0; i < 4; i++) {
+            System.out.println(this.numero[i]);
             for (int j = 0; j < 4; j++) {
                 if (i == j && this.numero[i] == gioc.getNumero(j)) {
                     strike++;
+                    punti = punti + 1000;
+                    k++; 
                 } else {
                     if (this.numero[i] == gioc.getNumero(j)) {
                         ball++;
+                        punti = punti + 500;
+                        k--; 
                     }
                 }
             }
         }
-
         this.gioc.setStrike(this.strike);
         this.gioc.setBall(this.ball);
+        punti = punti / gioc.getTentativi();
+        this.gioc.setPunti(this.punti); 
+        if(k==4){
+            setRisolto(true); 
+        }
     }
 
-    public void serchRes() {
-        System.out.println("");
-        scontrino.append(this.gioc.toString());
+    public Giocatore getgioker() {
+        return this.gioc;
     }
+
+    public  void setNumero(int[] numero) {
+       this.numero = numero;
+    }
+
+    
+    public  int [] getNumero() {
+        return this.numero;
+    }
+
+    public void setRisolto(boolean risolto) {
+        this.risolto = risolto;
+    }
+
+    public boolean isRisolto() {
+        return risolto;
+    }
+    
+
+    
 }

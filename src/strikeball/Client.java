@@ -16,29 +16,65 @@ import java.util.*;
 public class Client {
 
     public static String name;
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static Socket connessione;
+    public static Giocatore gioc;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException {
+
         int porta = 3500;
         String messaggio = "";
-        String host = "localhost";
-        InputStreamReader reader = new InputStreamReader(System.in);
-        BufferedReader riga = new BufferedReader(reader);
         try {
-            Socket connessione;
             String server = "localhost";
             connessione = new Socket(server, porta);
             System.out.println("connessione aperta");
-            Gioco gioker = new Gioco();
-            DatagramSocket socket = new DatagramSocket();
-            RiceviMSG r = new RiceviMSG(socket);
-            InviaMSG s = new InviaMSG(socket, host, Client.name);
-            Thread rt = new Thread(r);
-            Thread st = new Thread(s);
-            rt.start();
-            st.start();
-            connessione.close();
+            System.out.println(ANSI_CYAN + "Inserisci il tuo nome");
+            Client.name = inserimento();
+            Client.gioca();
+            Client.chat();
         } catch (IOException ex) {
             System.err.println("Server non trovato sulla porta: " + porta);
+        }
+    }
+
+    public static void gioca() throws IOException, ClassNotFoundException {
+        boolean v = true;
+        String v1;
+        gioc = new Giocatore(Client.name);
+        ObjectInputStream is = new ObjectInputStream(connessione.getInputStream());
+        Gioco gioker = (Gioco) is.readObject();
+
+        Gioco gserver = new Gioco(gioc);
+        gserver.setNumero(gioker.getNumero());
+
+        do {
+            gioc.tenta();
+            gioc.setTentativi(1);
+            gserver.verifica();
+            System.out.println(gioc.toString());
+            if (gserver.isRisolto()) {
+                v1 = "0";
+                System.out.println("Hai risolto la combinazione Attendi i risulatatii");
+            } else {
+                System.out.println("1| Ritenta  0|Esci dai tentativi");
+                v1 = inserimento();
+            }
+        } while (v1.equals("1"));
+
+    }
+
+    public static void chat() throws SocketException, IOException {
+        String host = "localhost";
+        DatagramSocket socket = new DatagramSocket();
+        RiceviMSG r = new RiceviMSG(socket);
+        InviaMSG s = new InviaMSG(socket, host, Client.name);
+        Thread rt = new Thread(r);
+        Thread st = new Thread(s);
+        rt.start();
+        st.start();
+        if (r.getReceived().equals("esci")) {
+            connessione.close();
+            System.out.println("connessione chiusa");   //da ricevi msg dovresti riuscire a passare un msg di chiusura
         }
     }
 
@@ -47,5 +83,13 @@ public class Client {
         Scanner sc = new Scanner(System.in);
         s = sc.nextLine();
         return s;
+    }
+
+    public void sendPlayer() throws  IOException{
+        OutputStream os = connessione.getOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(os);
+        oos.writeObject(gioc);
+        oos.close();
+        os.close();
     }
 }
