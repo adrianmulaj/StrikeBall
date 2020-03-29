@@ -16,7 +16,7 @@ public class Server {
 
     public static Socket connessione;
     public static Gioco gioc;
-    public static Giocatore vincitore; 
+    public static Giocatore vincitore;
 
     public static void main(String[] args) throws ClassNotFoundException {
         ServerSocket sSocket;
@@ -36,8 +36,10 @@ public class Server {
                 System.out.println("Connessione stabilita");
                 thread.setConnesso(true);
                 Server.gestione();
+                Server.confronto();
                 ServerMSGS s = new ServerMSGS();
                 s.start();
+                esitoinvio();
                 sSocket.close();
                 System.out.println("connessione chiusa");
             } catch (SocketTimeoutException ex) {
@@ -54,16 +56,21 @@ public class Server {
         os.writeObject(gioc);
     }
 
-    public static void confronto() throws IOException, ClassNotFoundException{
+    public static void confronto() throws IOException, ClassNotFoundException {
         InputStream is = connessione.getInputStream();
         ObjectInputStream ois = new ObjectInputStream(is);
         Giocatore giocatore = (Giocatore) ois.readObject();
         System.out.println((String) ois.readObject());
         is.close();
-        vincitore = new Giocatore("Nessno"); 
-        if(giocatore.getPunti()>vincitore.getPunti()){
-            vincitore.equals(giocatore); 
-        } 
+        vincitore = new Giocatore("Nessno");
+        if (giocatore.getPunti() > vincitore.getPunti()) {
+            vincitore.equals(giocatore);
+        }
+    }
+
+    public static void esitoinvio() throws IOException {
+        DataOutputStream alclient = new DataOutputStream(connessione.getOutputStream());
+        alclient.writeBytes(vincitore.toString());
     }
 
 }

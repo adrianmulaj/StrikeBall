@@ -54,13 +54,16 @@ public class Client {
             System.out.println(gioc.toString());
             if (gserver.isRisolto()) {
                 v1 = "0";
-                System.out.println("Hai risolto la combinazione Attendi i risulatatii");
+                System.out.println("Hai risolto la combinazione");
+                Client.sendPlayer();
             } else {
                 System.out.println("1| Ritenta  0|Esci dai tentativi");
                 v1 = inserimento();
             }
         } while (v1.equals("1"));
-
+        System.out.println("Attendi i risulatati");
+        BufferedReader inFromServer = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
+         System.out.println(inFromServer.readLine());
     }
 
     public static void chat() throws SocketException, IOException {
@@ -72,10 +75,6 @@ public class Client {
         Thread st = new Thread(s);
         rt.start();
         st.start();
-        if (r.getReceived().equals("esci")) {
-            connessione.close();
-            System.out.println("connessione chiusa");   //da ricevi msg dovresti riuscire a passare un msg di chiusura
-        }
     }
 
     public static String inserimento() {
@@ -85,7 +84,7 @@ public class Client {
         return s;
     }
 
-    public void sendPlayer() throws  IOException{
+    public static void sendPlayer() throws  IOException{
         OutputStream os = connessione.getOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(os);
         oos.writeObject(gioc);

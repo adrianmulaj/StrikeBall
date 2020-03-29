@@ -10,14 +10,6 @@
             <file>file:/C:/Users/simon/OneDrive/Desktop/StrikeBall-master/.git/config</file>
             <file>file:/C:/Users/simon/OneDrive/Desktop/StrikeBall-master/src/strikeball/ServerMSGS.java</file>
         </group>
-        <group name="AndiMulajJava">
-            <file>file:/C:/Andi%20Mulaj/AndiMulajJava/StrikeBall-master/src/strikeball/Gioco.java</file>
-            <file>file:/C:/Andi%20Mulaj/AndiMulajJava/StrikeBall-master/src/strikeball/InviaMSG.java</file>
-            <file>file:/C:/Andi%20Mulaj/AndiMulajJava/StrikeBall-master/src/strikeball/Client.java</file>
-            <file>file:/C:/Andi%20Mulaj/AndiMulajJava/StrikeBall-master/src/strikeball/RiceviMSG.java</file>
-            <file>file:/C:/Andi%20Mulaj/AndiMulajJava/StrikeBall-master/src/strikeball/ServerMSGS.java</file>
-            <file>file:/C:/Andi%20Mulaj/AndiMulajJava/StrikeBall-master/src/strikeball/Giocatore.java</file>
-            <file>file:/C:/Andi%20Mulaj/AndiMulajJava/StrikeBall-master/src/strikeball/Server.java</file>
-        </group>
+        <group name="AndiMulajJava"/>
     </open-files>
 </project-private>
